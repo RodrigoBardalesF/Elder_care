@@ -1,0 +1,103 @@
+.header {
+  display: flex;
+  align-items: center;    /* Vertically centers */
+  justify-content: center;
+  height: 15px;
+  padding: 60px; /* Space inside the header */
+  text-align: center; /* Center-aligns child elements like text */
+  background-color: #1abc9c; /* Set a background color */
+  color: white; /* Font color for text inside */
+}
+
+.nav-ul {
+list-style-type: none;
+  margin: 0;
+  padding: 10px;
+  padding-left: 20px;
+  overflow: hidden;
+  background-color: gray;
+}
+
+nav li {
+  float: left; /* Or use display: inline-block; */
+  margin-right: 20px;
+}
+
+.container{
+  display: flex;
+  width: 100%;
+}
+
+.medicine-checkup{
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+    width: 30%;
+    height: 350px;
+    margin: 15px;
+    justify-content: space-between;
+    white-space: pre-wrap;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    background-color: #f0f7fb;
+    border: solid 1px #3498db;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.note-content{
+  order: 1;
+}
+
+.note-buttons{
+  order: 2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.calendar {
+    width: 40%;
+    height: 350px;
+    margin: 15px;
+    width: 500px;
+    background-color: #f0f7fb;
+    border: solid 1px #3498db;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.exercises {
+    width: 30%;
+    height: 350px;
+    margin: 15px;
+    width: 200px;
+    background-color: #f0f7fb;
+    border: solid 1px #3498db;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.doctor-contacts{width: 20%;
+    height: 350px;
+    margin: 15px;
+    width: 500px;
+    background-color: #f0f7fb;
+    border: solid 1px #3498db;
+    padding: 15px;
+    border-radius: 6px;}
+
+.notes{
+  width: 20%;
+    height: 350px;
+    margin: 15px;
+    width: 400px;
+    background-color: #f0f7fb;
+    border: solid 1px #3498db;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.medicine-checkup p {
+    text-decoration: underline;
+}
