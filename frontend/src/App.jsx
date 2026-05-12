@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
 import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom"  
-import Calendar from './Calendar'
+import Calendar from './components/Calendar'
 import Header from './Header'
 import NavBar from './Navbar'
 import Home from './Home'
+import Login from './Login' 
 
 function App() {
-
-
-
   return (
     <>
     <Router>
@@ -18,6 +16,7 @@ function App() {
         <Routes>
           <>
           <Route path = "/" element = {<Home/>}/>
+          <Route path = "/login" element = {<Login/>}/>
           </>
         </Routes>
   

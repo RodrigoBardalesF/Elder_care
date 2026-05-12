@@ -3,24 +3,30 @@
   align-items: center;    /* Vertically centers */
   justify-content: center;
   height: 15px;
-  padding: 60px; /* Space inside the header */
+  padding: 25px; /* Space inside the header */
   text-align: center; /* Center-aligns child elements like text */
   background-color: #1abc9c; /* Set a background color */
   color: white; /* Font color for text inside */
 }
 
+body {
+  background-color: #58c8cc;
+  background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
 .nav-ul {
 list-style-type: none;
   margin: 0;
-  padding: 10px;
   padding-left: 20px;
   overflow: hidden;
-  background-color: gray;
+  background-color: #1abc9c;
 }
 
 nav li {
-  float: left; /* Or use display: inline-block; */
+  float:left; /* Or use display: inline-block; */
   margin-right: 20px;
+  color: white;
 }
 
 .container{
