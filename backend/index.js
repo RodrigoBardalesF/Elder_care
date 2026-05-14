@@ -3,6 +3,9 @@ import env from "dotenv"
 import cors from "cors"
 import pg from "pg"
 import { doesNotMatch } from "node:assert";
+import jwt from "jsonwebtoken"
+import login from "./routes/login.js"
+import bcrypt from "bcrypt"
 
 const app = express();
 const port = 3000;
@@ -103,6 +106,35 @@ app.delete("/api/notes/:id", async(req, res) => {
     const { id } = req.params
     const result = await db.query("DELETE FROM notes WHERE id=($1)", [id]);
 })
+
+app.post("/login", async (req, res) => {
+    const {user, password} = req.body.user    
+    console.log(user);
+    console.log(password);
+    try {
+        const result = await db.query("SELECT * FROM users WHERE name=($1)", [user])
+        const data = result.rows[0]
+        console.log("The data we receive from the DB is:", data)
+            if (result.rows.length === 0) throw new Error ("Username doesn't exist") 
+            const isValid = await bcrypt.compare(password, data.password)
+            if (!isValid) throw new Error ("password is invalid")
+            const token = jwt.sign({id: data.id}, process.env.TOKEN_SECRET, {expiresIn: '1h'})
+            console.log("The token we produce and send is:", token)
+            res.json({token})
+    } catch (error) {res.status(401).send(error.message)}
+});
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers["authorization"]
+    const token = authHeader && authHeader.split(" ")[1]
+    if (token == null) return res.sendStatus(401)
+    
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403)
+            req.user = user
+            next()
+    })
+}
 
 app.listen(port, () =>{
     console.log(`Server running on port ${port}`)

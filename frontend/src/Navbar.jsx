@@ -1,19 +1,31 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import "./index.css"
 
 function NavBar() {
+
+const navigate = useNavigate()
+const token = localStorage.getItem("token")
+
+const handleLogout = () => {
+    localStorage.removeItem("token")
+    navigate("/", {replace:true})
+}
+
  return(<>
     <nav className='navbar'>
         <ul className='nav-ul'>
-            <li> 
-                <p>Página principal</p>
+            <li>< a href="/"> 
+                Página principal</a>
             </li>
-            <li>
-                <p>Datos</p>
+            <li>< a href="/datos"> 
+                Datos</a>
             </li>
-               <li>
-                <p>Inicio de sesión</p>
+            <li>< a href="/login"> 
+                Inicio de Sesión</a>
             </li>
+            {token && (<li onClick= {handleLogout}> 
+                Cerrar Sesión </li>)}
         </ul>
     </nav>
  </>)

@@ -1,6 +1,7 @@
 import { useState, useEffect, use } from 'react'
 import "./index.css"
 import Notes from './Note'
+import Calendar from './components/Calendar'
 
 function Home(props){
 
@@ -54,30 +55,37 @@ const {data : notes, setData : setNotes} = useFetchData("http://localhost:3000/a
 
     return(<>
     <div className='container'>
+
+        <div className='medicine-checkup'>
         <Notes
         key = {props.medicine}
         title = "Medicinas"
-        object={["medicine", "hour_to_take"]}
+        object={["id", "medicine", "hour_to_take"]}
         api= "http://localhost:3000/api/medicine"
         items = {medicine}
         setItems={setMedicine}
         />
+         </div>
+
     <div className='calendar'>
-        <p>Dias</p>
+        <Calendar></Calendar>
     </div>
-    <div >
+
+    <div className="exercises">
         <Notes
         key = {props.id}
         title = "Ejercicios"
-        object={["exercise", "time_sets"]}
+        object={["id", "exercise", "time_sets"]}
         api= "http://localhost:3000/api/exercise"
         items = {exercise}
         setItems={setExercise}
         />
     </div>
-    </div>
+
+</div>
     <div className='container'>
-        <div>
+
+        <div className='doctor-contacts'>
          <Notes
         key = {props.id}
         title = "Contacto doctores"
@@ -87,7 +95,8 @@ const {data : notes, setData : setNotes} = useFetchData("http://localhost:3000/a
         setItems={setContacts}
         />
         </div>
-        <div>
+
+        <div className='notes'>
        <Notes
         key = {props.id}
         title = "Notas"
@@ -97,8 +106,7 @@ const {data : notes, setData : setNotes} = useFetchData("http://localhost:3000/a
         setItems={setNotes}
         />
         </div>
-    
-    </div>
+ </div>    
     </>)
 }
 

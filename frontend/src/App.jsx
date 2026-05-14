@@ -5,6 +5,7 @@ import Header from './Header'
 import NavBar from './Navbar'
 import Home from './Home'
 import Login from './Login' 
+import PrivateRoute from './ProtectedRoutes'
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
       <div>
         <Routes>
           <>
-          <Route path = "/" element = {<Home/>}/>
+          <Route path = "/" element = {<PrivateRoute><Home/></PrivateRoute>}/>
           <Route path = "/login" element = {<Login/>}/>
           </>
         </Routes>

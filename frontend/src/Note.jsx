@@ -61,7 +61,7 @@ const submitAuthor = async (event) => {
 } 
 
 return(
-<div className='medicine-checkup'> 
+<div> 
     <h3>{title}</h3>
     <div>
     {items.map(item =>  (
@@ -69,7 +69,7 @@ return(
             {object.map(campo => 
                 (<span id={campo}>{item[campo]}    </span>)
             )}
-            <div className='note-buttons'>
+            <div className='note-button'>
             <button >Editar</button>
             <button onClick={() => eraseButton(item.id)}>Eliminar</button>
             <input type="checkbox" id="myCheckbox"></input> 
@@ -77,7 +77,7 @@ return(
         </div>
     ))}
     </div>
-    {!isVisible ? <button onClick={setVisibility}>+</button> : null}
+    {!isVisible ? <button className='add-button' onClick={setVisibility}>+</button> : null}
     {isVisible && (
         <form onSubmit={submitAuthor}>
         <div>

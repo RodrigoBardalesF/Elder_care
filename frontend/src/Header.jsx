@@ -5,7 +5,7 @@ function Header() {
  return (
     <> 
    <header className='header'>
-    <h1>Cuidado de Teodora</h1>
+    <h1>Cuidados Generales</h1>
    </header>
     </>
  )
