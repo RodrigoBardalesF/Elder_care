@@ -18,6 +18,7 @@ function App() {
           <>
           <Route path = "/" element = {<PrivateRoute><Home/></PrivateRoute>}/>
           <Route path = "/login" element = {<Login/>}/>
+          <Route path = "/datos" element = {<PrivateRoute><Calendar/></PrivateRoute>}/>
           </>
         </Routes>
   

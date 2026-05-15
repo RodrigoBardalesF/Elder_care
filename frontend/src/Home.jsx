@@ -2,6 +2,7 @@ import { useState, useEffect, use } from 'react'
 import "./index.css"
 import Notes from './Note'
 import Calendar from './components/Calendar'
+import MyCalendar from './components/Calendar2'
 
 function Home(props){
 
@@ -60,7 +61,7 @@ const {data : notes, setData : setNotes} = useFetchData("http://localhost:3000/a
         <Notes
         key = {props.medicine}
         title = "Medicinas"
-        object={["id", "medicine", "hour_to_take"]}
+        object={["medicine", "hour_to_take"]}
         api= "http://localhost:3000/api/medicine"
         items = {medicine}
         setItems={setMedicine}
@@ -68,14 +69,14 @@ const {data : notes, setData : setNotes} = useFetchData("http://localhost:3000/a
          </div>
 
     <div className='calendar'>
-        <Calendar></Calendar>
+        <MyCalendar/>
     </div>
 
     <div className="exercises">
         <Notes
         key = {props.id}
         title = "Ejercicios"
-        object={["id", "exercise", "time_sets"]}
+        object={["exercise", "time_sets"]}
         api= "http://localhost:3000/api/exercise"
         items = {exercise}
         setItems={setExercise}

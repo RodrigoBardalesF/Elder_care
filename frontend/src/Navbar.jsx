@@ -9,7 +9,7 @@ const token = localStorage.getItem("token")
 
 const handleLogout = () => {
     localStorage.removeItem("token")
-    navigate("/", {replace:true})
+    navigate("/login", {replace:true})
 }
 
  return(<>
@@ -24,8 +24,8 @@ const handleLogout = () => {
             <li>< a href="/login"> 
                 Inicio de Sesión</a>
             </li>
-            {token && (<li onClick= {handleLogout}> 
-                Cerrar Sesión </li>)}
+            <li><a href="#" onClick={(e) => { e.preventDefault(); handleLogout(); }}>
+                Cerrar Sesión</a> </li>
         </ul>
     </nav>
  </>)

@@ -29,23 +29,27 @@ app.use(cors(
 app.use(express.json())
 
 app.get("/", async(req, res) => {
+    try {
     const result = await db.query("SELECT * FROM medicine");
     const data = result.rows;
     console.log(data)
+    } catch (error){
+          console.error("Error en GET /api/medicine:", error);
+        res.status(500).json({error:"Error al mandar datos de medicina, error"})}
 })
 
 
 app.get("/api/medicine", async(req, res) => {
     const result = await db.query("SELECT * FROM medicine");
     const data = result.rows;
-    res.json(data)
+    res.status(200).json(data)
 })
 
 app.post("/api/medicine", async(req, res) => {
     const data = req.body
     console.log(data)
     const result = await db.query("INSERT INTO medicine (medicine, hour_to_take) VALUES ($1, $2) RETURNING *", [data.medicine, data.hour_to_take]);
-    res.json(result.rows[0])
+    res.status(200).json(result.rows[0])
 })
 
 app.delete("/api/medicine/:id", async(req, res) => {
@@ -56,14 +60,14 @@ app.delete("/api/medicine/:id", async(req, res) => {
 app.get("/api/exercise", async(req, res) => {
     const result = await db.query("SELECT * FROM exercises");
     const data = result.rows;
-    res.json(data)
+    res.status(200).json(data)
 })
 
 app.post("/api/exercise", async(req, res) => {
     const data = req.body
     console.log(data)
     const result = await db.query("INSERT INTO exercises (exercise, time_sets) VALUES ($1, $2) RETURNING *", [data.exercise, data.time_sets]);
-    res.json(result.rows[0])
+    res.status(200).json(result.rows[0])
 })
 
 app.delete("/api/exercise/:id", async(req, res) => {
@@ -74,14 +78,14 @@ app.delete("/api/exercise/:id", async(req, res) => {
 app.get("/api/doctor_data", async(req, res) => {
     const result = await db.query("SELECT * FROM doctors_data");
     const data = result.rows;
-    res.json(data)
+    res.status(200).json(data)
 })
 
 app.post("/api/doctor_data", async(req, res) => {
     const data = req.body
     console.log(data)
     const result = await db.query("INSERT INTO doctors_data (doctor_name, doctor_contact) VALUES ($1, $2) RETURNING *", [data.doctor_name, data.doctor_contact]);
-    res.json(result.rows[0])
+    res.status(200).json(result.rows[0])
 })
 
 app.delete("/api/doctor_data/:id", async(req, res) => {
@@ -92,14 +96,14 @@ app.delete("/api/doctor_data/:id", async(req, res) => {
 app.get("/api/notes", async(req, res) => {
     const result = await db.query("SELECT * FROM notes");
     const data = result.rows;
-    res.json(data)
+    res.status(200).json(data)
 })
 
 app.post("/api/notes", async(req, res) => {
     const data = req.body
     console.log(data)
     const result = await db.query("INSERT INTO doctors_data (doctor_name, doctor_contact) VALUES ($1, $2) RETURNING *", [data.doctor_name, data.doctor_contact]);
-    res.json(result.rows[0])
+    res.status(200).json(result.rows[0])
 })
 
 app.delete("/api/notes/:id", async(req, res) => {

@@ -63,15 +63,15 @@ const submitAuthor = async (event) => {
 return(
 <div> 
     <h3>{title}</h3>
-    <div>
+    <div className='notes-container'>
     {items.map(item =>  (
         <div id = {item.id} key = {item.id} className='note-content'>
-            {object.map(campo => 
-                (<span id={campo}>{item[campo]}    </span>)
+            {object.map((campo, index) => 
+                (<span id={campo}>  {item[campo]}    </span>)
             )}
             <div className='note-button'>
-            <button >Editar</button>
-            <button onClick={() => eraseButton(item.id)}>Eliminar</button>
+            <button  >Editar</button>
+            <button  onClick={() => eraseButton(item.id)}>Eliminar</button>
             <input type="checkbox" id="myCheckbox"></input> 
             </div>
         </div>

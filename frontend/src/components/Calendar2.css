@@ -1,0 +1,21 @@
+
+.react-calendar {
+    background-color: rgba(255, 248, 240, 0.4); 
+    width: 500px;
+}
+
+.react-calendar__navigation button {
+  color: black;
+}
+
+.react-calendar__month-view__weekdays {
+  color: black;
+}
+
+.react-calendar__navigation {
+    color: black;
+}
+
+.react-calendar__tile{
+    color: black;
+}
