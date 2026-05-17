@@ -6,6 +6,7 @@ import { doesNotMatch } from "node:assert";
 import jwt from "jsonwebtoken"
 import login from "./routes/login.js"
 import bcrypt from "bcrypt"
+import { error } from "node:console";
 
 const app = express();
 const port = 3000;
@@ -34,88 +35,150 @@ app.get("/", async(req, res) => {
     const data = result.rows;
     console.log(data)
     } catch (error){
-          console.error("Error en GET /api/medicine:", error);
-        res.status(500).json({error:"Error al mandar datos de medicina, error"})}
+          console.error("Error at GET /api/medicine:", error);
+        res.status(500).json({error:"Error al mandar datos de medicina", error})}
 })
 
 
 app.get("/api/medicine", async(req, res) => {
+    try {
     const result = await db.query("SELECT * FROM medicine");
     const data = result.rows;
     res.status(200).json(data)
-})
+    }   catch(error){ 
+    console.error("Error at getting data from get / api/medicine")
+    res.status(500).json({error:"Error at sending medicine data", error})
+    }
+    }
+)
 
 app.post("/api/medicine", async(req, res) => {
-    const data = req.body
+    try
+    {const data = req.body
     console.log(data)
     const result = await db.query("INSERT INTO medicine (medicine, hour_to_take) VALUES ($1, $2) RETURNING *", [data.medicine, data.hour_to_take]);
     res.status(200).json(result.rows[0])
+    } catch (error) {
+    console.error("Error at posting data from post / api/medicine")
+    res.status(500).json({error:"Error at posting medicine data", error})
+    }
 })
 
 app.delete("/api/medicine/:id", async(req, res) => {
-    const { id } = req.params
-    const result = await db.query("DELETE FROM medicine WHERE id=($1)", [id]);
+    try
+    {const { id } = req.params
+    const result = await db.query("DELETE FROM medicine WHERE id=($1) RETURNING *", [id]);
+    } catch (error) {
+    console.error("Error at deleting data from delete/ api/medicine")
+    res.status(500).json({error:"Error at deleting medicine data", error})
+    } 
 })
 
-app.get("/api/exercise", async(req, res) => {
-    const result = await db.query("SELECT * FROM exercises");
+app.get("/api/exercise", authenticateToken,async(req, res) => {
+    try
+    {const result = await db.query("SELECT * FROM exercises");
     const data = result.rows;
     res.status(200).json(data)
+    } catch (error) {
+    console.error("Error at getting data from get / api/medicine")
+    res.status(500).json({error:"Error at sending exercise data", error})
+    }
 })
 
 app.post("/api/exercise", async(req, res) => {
-    const data = req.body
+    try
+    {const data = req.body
     console.log(data)
     const result = await db.query("INSERT INTO exercises (exercise, time_sets) VALUES ($1, $2) RETURNING *", [data.exercise, data.time_sets]);
     res.status(200).json(result.rows[0])
+    } catch(error){
+    console.error("Error at posting data from post / api/exercise")
+    res.status(500).json({error:"Error at posting exercise data", error})
+    }
 })
 
-app.delete("/api/exercise/:id", async(req, res) => {
-    const { id } = req.params
+app.delete("/api/exercise/:id", authenticateToken, async(req, res) => {
+    try
+    {const { id } = req.params
     const result = await db.query("DELETE FROM exercises WHERE id=($1)", [id]);
+    } catch (error){
+    console.error("Error at deleting data from delete/ api/exercise")
+    res.status(500).json({error:"Error at deleting exercise data", error})
+    }
 })
 
-app.get("/api/doctor_data", async(req, res) => {
-    const result = await db.query("SELECT * FROM doctors_data");
+app.get("/api/doctor_data", authenticateToken, async(req, res) => {
+    try
+    {const result = await db.query("SELECT * FROM doctors_data");
     const data = result.rows;
     res.status(200).json(data)
+    } catch (error) {
+    console.error("Error at getting data from get/api/doctor_data")
+    res.status(500).json({error:"Error at sending doctor's data", error})
+    }
 })
 
 app.post("/api/doctor_data", async(req, res) => {
-    const data = req.body
+    try
+    {const data = req.body
     console.log(data)
     const result = await db.query("INSERT INTO doctors_data (doctor_name, doctor_contact) VALUES ($1, $2) RETURNING *", [data.doctor_name, data.doctor_contact]);
     res.status(200).json(result.rows[0])
+    } catch (error) {
+    console.error("Error at posting data from post / api/doctor_data")
+    res.status(500).json({error:"Error at posting doctor's data", error})
+    }
 })
 
-app.delete("/api/doctor_data/:id", async(req, res) => {
-    const { id } = req.params
+app.delete("/api/doctor_data/:id", authenticateToken, async(req, res) => {
+    try
+    {const { id } = req.params
     const result = await db.query("DELETE FROM doctors_data WHERE id=($1)", [id]);
+    } catch (error) {
+    console.error("Error at deleting data from delete/ api/exercise")
+    res.status(500).json({error:"Error at deleting docto's data", error})
+    }
 })
 
-app.get("/api/notes", async(req, res) => {
-    const result = await db.query("SELECT * FROM notes");
+app.get("/api/notes", authenticateToken, async(req, res) => {
+    try
+    {const result = await db.query("SELECT * FROM notes");
     const data = result.rows;
     res.status(200).json(data)
+    } catch (error){
+    console.error("Error at getting data from get/api/notes")
+    res.status(500).json({error:"Error at sending note's data", error})
+    }
 })
 
-app.post("/api/notes", async(req, res) => {
-    const data = req.body
+app.post("/api/notes", authenticateToken, async(req, res) => {
+    try
+    {const data = req.body
+    console.log(req.user);
     console.log(data)
-    const result = await db.query("INSERT INTO doctors_data (doctor_name, doctor_contact) VALUES ($1, $2) RETURNING *", [data.doctor_name, data.doctor_contact]);
+    const result = await db.query("INSERT INTO notes (text, date, user_id) VALUES ($1, NOW(), $2) RETURNING *", [data.text, req.user.id]);
     res.status(200).json(result.rows[0])
+    } catch (error) {
+    console.error("Error at posting data from post / api/notes")
+    res.status(500).json({error:"Error at posting note's data", error})
+    }
 })
 
-app.delete("/api/notes/:id", async(req, res) => {
-    const { id } = req.params
+app.delete("/api/notes/:id", authenticateToken, async(req, res) => {
+    try 
+    {const { id } = req.params
     const result = await db.query("DELETE FROM notes WHERE id=($1)", [id]);
+    } catch (error) {
+    console.error("Error at deleting data from delete/ api/notes")
+    res.status(500).json({error:"Error at deleting notes's data", error})
+    }
 })
 
 app.post("/login", async (req, res) => {
     const {user, password} = req.body.user    
     console.log(user);
     console.log(password);
-    try {
+    try {                          
         const result = await db.query("SELECT * FROM users WHERE name=($1)", [user])
         const data = result.rows[0]
         console.log("The data we receive from the DB is:", data)

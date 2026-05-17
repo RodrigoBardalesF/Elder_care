@@ -21,10 +21,26 @@ const [exercise, setExercise] = useState([])
 
 useEffect(() => { //Trying with modern fetch data
     const fetchData = async() => {
-        const result = await fetch("http://localhost:3000/api/exercise")
+        const token = localStorage.getItem("token")
+        if (!token) {
+            navigate("/login");
+            return;
+        }
+
+        try 
+        {const result = await fetch("http://localhost:3000/api/exercise", {
+            headers : {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
         const jsonResult = await result.json()
         //console.log("The results for the json exercises were: ", jsonResult)
-        setExercise(jsonResult)
+        setExercise(jsonResult)} 
+        
+        catch (error) {
+            console.error("Error de red", error)
+        }
     }
     fetchData()
 }, [])
@@ -34,8 +50,19 @@ function useFetchData (url) { //Trying with a function that can be used for diff
 
     useEffect(() => {
         const fetchData = async () => {
+        
+        const token = localStorage.getItem("token")
+        if (!token) {
+            navigate("/login");
+            return;
+        }
             try {
-                const res = await fetch(url)
+                const res = await fetch(url, {
+                     headers : {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+                })
                 const json = await res.json()
                 setData(json)
             } catch (error) {

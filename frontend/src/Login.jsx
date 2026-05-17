@@ -33,6 +33,7 @@ const checkUser = async (e) => {
     const {token} = await res.json()
     console.log(token)
     localStorage.setItem("token", token)
+    localStorage.setItem("userId", user.id)
     window.location.href = "/"
    } else {
     alert("Credenciales incorrectas")
