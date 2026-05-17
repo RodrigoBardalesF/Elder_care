@@ -64,6 +64,19 @@ app.post("/api/medicine", async(req, res) => {
     }
 })
 
+app.put("/api/medicine/:id", async (req, res) => {
+    try {
+    const data = req.body
+    console.log(data);
+
+    const {id} = req.params
+    const result = await db.query("UPDATE medicine SET medicine = ($1), hour_to_take = ($2) WHERE id = ($3)", [data.medicine, data.hour_to_take, id])
+    } catch (error) {
+    console.error("Error at posting data from post / api/medicine")
+    res.status(500).json({error:"Error at posting medicine data", error})
+    }
+})
+
 app.delete("/api/medicine/:id", async(req, res) => {
     try
     {const { id } = req.params
@@ -94,6 +107,18 @@ app.post("/api/exercise", async(req, res) => {
     } catch(error){
     console.error("Error at posting data from post / api/exercise")
     res.status(500).json({error:"Error at posting exercise data", error})
+    }
+})
+
+app.put("/api/exercise/:id", async (req, res) => {
+    try {
+    const data = req.body
+    console.log(data);
+    const {id} = req.params
+    const result = await db.query("UPDATE exercises SET exercise = ($1), time_sets = ($2) WHERE id = ($3)", [data.exercise, data.time_sets, id])
+    } catch (error) {
+    console.error("Error at posting data from post / api/exercise")
+    res.status(500).json({error:"Error at posting medicine data", error})
     }
 })
 
