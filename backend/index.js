@@ -9,16 +9,13 @@ import bcrypt from "bcrypt"
 import { error } from "node:console";
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 env.config();
 
 const db = new pg.Client({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT
-})
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" ? {rejectUnauthorized: false } : false
+});
 
 db.connect();
 
@@ -155,6 +152,18 @@ app.post("/api/doctor_data", async(req, res) => {
     }
 })
 
+app.put("/api/doctor_data/:id", async (req, res) => {
+    try {
+    const data = req.body
+    console.log(data);
+    const {id} = req.params
+    const result = await db.query("UPDATE doctors_data SET doctor_name = ($1), doctor_contact = ($2) WHERE id = ($3)", [data.doctor_name, data.doctor_contact, id])
+    } catch (error) {
+    console.error("Error at posting data from post / api/exercise")
+    res.status(500).json({error:"Error at posting medicine data", error})
+    }
+})
+
 app.delete("/api/doctor_data/:id", authenticateToken, async(req, res) => {
     try
     {const { id } = req.params
@@ -186,6 +195,19 @@ app.post("/api/notes", authenticateToken, async(req, res) => {
     } catch (error) {
     console.error("Error at posting data from post / api/notes")
     res.status(500).json({error:"Error at posting note's data", error})
+    }
+})
+
+
+app.put("/api/notes/:id", async (req, res) => {
+    try {
+    const data = req.body
+    console.log(data);
+    const {id} = req.params
+    const result = await db.query("UPDATE notes SET text = ($1) WHERE id = ($2);", [data.text, id])
+    } catch (error) {
+    console.error("Error at posting data from post / api/exercise")
+    res.status(500).json({error:"Error at posting medicine data", error})
     }
 })
 
@@ -228,6 +250,7 @@ function authenticateToken(req, res, next) {
     })
 }
 
-app.listen(port, () =>{
-    console.log(`Server running on port ${port}`)
+app.listen(PORT, () =>{
+    console.log(`Server running on port ${PORT}`)
 })
+

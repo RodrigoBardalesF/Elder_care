@@ -95,6 +95,13 @@ h3 {
   display: inline-block; 
 }
 
+.notes-wrapper {  /* Eliminate if it doesn't work */
+display: flex;
+  flex-direction: column;
+  height: 100%; 
+  overflow-y: auto;
+}
+
 .note-content{
   display: flex;
   flex-wrap: wrap;
@@ -182,7 +189,6 @@ h3 {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 10px;
-
 }
 
 .edit-input {

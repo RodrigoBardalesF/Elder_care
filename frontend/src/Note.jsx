@@ -5,7 +5,9 @@ function Notes({title, object, items, api, key, setItems}){
 
 const [itemToEdit, setItemToEdit]= useState()
 
-const [editVisible, setEditVisible] = useState(false)
+const [arrayOfItemsToEdit, setarrayOfItemsToEdit] = useState([])
+
+const [editingId, seteditingId] = useState(null)
 
 function editText(event){
     const {name, value} = event.target
@@ -19,9 +21,12 @@ function editText(event){
 }
 
 const editButton = (id) => {
- setEditVisible(!editVisible) 
+ seteditingId(id) 
  const chosen_item = items.find(item => item.id === id)
  setItemToEdit(chosen_item)
+ const array = Object.values(itemToEdit)
+ setarrayOfItemsToEdit(array)
+ console.log(arrayOfItemsToEdit)
 }    
 
 const patchText = async (id) => {
@@ -44,6 +49,8 @@ try {
     console.log("Lo que llega del backend es esto: ", resultInJson)
     setItems(prev => [...prev, resultInJson])
     setNewItem({});
+    seteditingId(null)
+    setItemToEdit(null)
 } catch (error) {console.error("Error at editing data", error)}
 
 }
@@ -129,42 +136,70 @@ try
 } 
 
 return(
-<div> 
+<div className='notes-wrapper'> 
     <h3>{title}</h3>
     <div className='notes-container'>
     {items.map(item =>  (
         <div id = {item.id} key = {item.id} className='note-content'>
-            {object.map((campo, index) => 
-             (<span id={campo}>  {item[campo]}    </span>) 
+            {editingId !== item.id && ( 
+                <>
+            {object.map((campo, index) => (
+                <span id={campo}>  {item[campo]}    </span>
+            ))}
 
-            )}
-            <div className='note-button'>
-    {editVisible && 
+    <div className='note-button'>
+            <button  onClick={() => editButton(item.id)}>Editar</button>
+            {editingId === null ? 
+            <button  onClick={() => eraseButton(item.id)}>Eliminar</button> : null}
+            <input type="checkbox" id="myCheckbox"></input> 
+            </div> 
+            </>
+        )}
+
+<div>
+ {editingId === item.id && 
     <form onSubmit={() => patchText(item.id)}>
         <div className='edit-container'>
     {object.map(item => (
         <div className='edit-input'>
-    <input name= {item} onChange={editText} type="text" placeholder={item} value={itemToEdit?.[item] || ''}></input>
+    <input 
+    key = {item}
+    name= {item} 
+    onChange={editText} 
+    type="text" 
+    placeholder={item} 
+    value={itemToEdit?.[item] || ''}>
+    </input>
         </div>
     ))}<button className='edit-btn' type="submit">Guardar cambios</button>
+    <button className='edit-btn' onClick={() => seteditingId(null)}>Cancelar</button>
     </div> </form>
              }
-            <button  onClick={() => editButton(item.id)}>Editar</button>
-            {editVisible === false ? <button  onClick={() => eraseButton(item.id)}>Eliminar</button> : null}
-            <input type="checkbox" id="myCheckbox"></input> 
-            </div>
+</div>
+
+
         </div>
+        
     ))}
+
+
+
     </div>
     {!isVisible ? <button className='add-button' onClick={setVisibility}>+</button> : null}
     {isVisible && (
+        <div className='notes-container'>
         <form onSubmit={submitAuthor}>
-        <div>
+        <div className='note-content'>
     {object.map(item => (
-        <input name= {item} onChange={textChange} type="text" placeholder={item}></input>
-    ))}<button type="submit">Listo</button></div> </form>
+    <input name= {item} onChange={textChange} type="text" placeholder={item}></input>
+    ))}<button type="submit">Listo</button>
+</div> <button className='edit-btn' onClick={() => setIsVisible(false)}>Cancelar</button> </form> </div>
     )}
+
+    
 </div>
+
+
     )
 }
 

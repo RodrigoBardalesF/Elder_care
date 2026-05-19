@@ -65,7 +65,8 @@ function Calendar() {
   const monthName = current.toLocaleString('es-MX', { month: 'long', year: 'numeric' });
 
   return (
-    <div className="calendar">
+    <div className='container-calendar-notes'>
+    <div className="calendar2">
       <div className="calendar-header">
         <button onClick={() => setCurrent(new Date(year, month - 1, 1))}>◀ Anterior</button>
         <h2>{monthName}</h2>
@@ -123,10 +124,10 @@ function Calendar() {
           </p>
         </div>
       )}
-
-
     </div>
 
+    
+</div>
 
   );
 }
