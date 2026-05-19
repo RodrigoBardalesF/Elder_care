@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom"  
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom"  
 import Calendar from './components/Calendar'
 import Header from './Header'
 import NavBar from './Navbar'

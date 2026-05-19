@@ -222,11 +222,11 @@ app.delete("/api/notes/:id", authenticateToken, async(req, res) => {
 })
 
 app.post("/login", async (req, res) => {
-    const {user, password} = req.body.user    
-    console.log(user);
+    const {username, password} = req.body    
+    console.log(username);
     console.log(password);
     try {                          
-        const result = await db.query("SELECT * FROM users WHERE name=($1)", [user])
+        const result = await db.query("SELECT * FROM users WHERE name=($1)", [username])
         const data = result.rows[0]
         console.log("The data we receive from the DB is:", data)
             if (result.rows.length === 0) throw new Error ("Username doesn't exist") 

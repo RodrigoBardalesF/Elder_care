@@ -1,10 +1,10 @@
-import { useState, useEffect, use } from 'react'
+import { useState } from 'react'
 import "./index.css"
 
 function Login () {
 
 const [user, setUser] = useState({
-    user: "",
+    username: "",
     password: ""
 })
 
@@ -22,12 +22,12 @@ console.log(user);
 
 const checkUser = async (e) => {
     e.preventDefault()
-   const res = await fetch("http://localhost:3000/login", {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
     method: "POST",
     headers: {
         "Content-Type" : "application/json"
     },
-    body: JSON.stringify({user})
+    body: JSON.stringify({username: user.username, password: user.password})
    })
    if (res.ok) {
     const {token} = await res.json()
@@ -47,7 +47,7 @@ return(<>
     <form className= "login-form" onSubmit={checkUser}>
         <h2>Inicio de sesión</h2>
     <div className='input-box'>
-        <input type="text" name="user" onChange={readText} placeholder='Ingresa usuario'></input>
+        <input type="text" name="username" onChange={readText} placeholder='Ingresa usuario'></input>
     </div>
     <div className='input-box'>
         <input type="text" name="password" onChange={readText} placeholder='Ingresa contraseña'></input>

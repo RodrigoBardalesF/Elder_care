@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import "./index.css"
+import { useNavigate } from 'react-router-dom';
 
-function Notes({title, object, items, api, key, setItems}){
+function Notes({title, object, items, api, subtitulos, setItems}){
 
 const [itemToEdit, setItemToEdit]= useState()
+const navigate = useNavigate()
 
 const [arrayOfItemsToEdit, setarrayOfItemsToEdit] = useState([])
 
@@ -132,12 +134,13 @@ try
   setNewItem({});
   setIsVisible(false); 
 
-} catch (error) {alert("Error con base de datos")}
+} catch (error) {alert("Error con base de datos", error)}
 } 
 
 return(
 <div className='notes-wrapper'> 
     <h3>{title}</h3>
+    <div className='subtitle'>  {subtitulos.map(subtitulo => ( <span >{subtitulo}        </span>))} </div>
     <div className='notes-container'>
     {items.map(item =>  (
         <div id = {item.id} key = {item.id} className='note-content'>

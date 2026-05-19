@@ -95,7 +95,12 @@ h3 {
   display: inline-block; 
 }
 
-.notes-wrapper {  /* Eliminate if it doesn't work */
+.subtitle {
+  border-bottom: 1px solid black; 
+  padding-bottom: 15px;
+}
+
+.notes-wrapper {  
 display: flex;
   flex-direction: column;
   height: 100%; 
@@ -179,6 +184,7 @@ display: flex;
     padding: 15px;
     border-radius: 10px;
       background-color: rgba(255, 248, 240, 0.4); 
+        overflow-y: auto;
 }
 
 .notes-container {
