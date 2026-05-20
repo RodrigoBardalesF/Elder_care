@@ -2,22 +2,20 @@ import express from "express"
 import env from "dotenv"
 import cors from "cors"
 import pg from "pg"
-import { doesNotMatch } from "node:assert";
 import jwt from "jsonwebtoken"
 import login from "./routes/login.js"
 import bcrypt from "bcrypt"
-import { error } from "node:console";
+import createTables  from "./db/init.js"
+import db from "./db/connection.js"
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 env.config();
 
-const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === "production" ? {rejectUnauthorized: false } : false
-});
-
 db.connect();
+
+createTables();
 
 app.use(cors(
 {   origin: "http://localhost:5173",
