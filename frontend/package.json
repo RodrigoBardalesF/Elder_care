@@ -3,11 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node":"20.x"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node -v && npm -v && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite review"
   },
   "dependencies": {
     "bcrypt": "6.0.0",
