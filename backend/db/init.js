@@ -11,7 +11,7 @@ const createTables = async () => {
             )`)
         
         await db.query(`
-            CREATE TABLE IF NOT EXISTS doctor_data (
+            CREATE TABLE IF NOT EXISTS doctors_data (
             id SERIAL PRIMARY KEY,
             doctor_name VARCHAR(255) NOT NULL,
             doctor_contact VARCHAR(255) NOT NULL
